@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import styles from './Timer.scss'
+import styled from 'styled-components'
 
 export const formatTime = time => {
   if (time < 0) return '--:--'
@@ -14,26 +13,23 @@ export const formatTime = time => {
   return `${m}:${ss}`
 }
 
-const Timer = ({ time = 0 }) => <div className={styles.timer}>{formatTime(time)}</div>
-
-Timer.propTypes = {
-  time: PropTypes.number,
-}
-
 class TimerContainer extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      secondsElapsed: 0,
-    }
+  static propTypes = {
+    time: PropTypes.number,
+  }
+
+  state = {
+    secondsElapsed: 0,
   }
 
   componentDidMount() {
     this.interval = setInterval(this.tick.bind(this), 1000)
   }
 
-  componentWillUnmount() {
-    clearInterval(this.interval)
+  componentDidUpdate() {
+    if (!this.props.isTrackingTime) {
+      clearInterval(this.interval)
+    }
   }
 
   tick() {
@@ -43,7 +39,8 @@ class TimerContainer extends React.Component {
   }
 
   render() {
-    return <Timer time={this.state.secondsElapsed} />
+    const { secondsElapsed } = this.state
+    return formatTime(secondsElapsed)
   }
 }
 

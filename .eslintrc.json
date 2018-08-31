@@ -5,6 +5,7 @@
     "no-return-assign": ["error", "except-parens"],
     "import/no-restricted-paths": "off",
     "react/require-default-props": "off",
+    "no-unused-expressions": "off",
     "prettier/prettier": [
       "error",
       {
